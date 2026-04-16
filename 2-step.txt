@@ -1,0 +1,21 @@
+step 1 : npm install dotenv
+step 2 : Port number daal kr server me use kro.
+
+const express = require('express')
+const app = express()
+
+// step 1 : npm install dotenv
+// step 2 : import env
+const dotenv = require('dotenv')
+// step 3 : load the env.config
+dotenv.config()
+
+const PORT = process.env.SERVER_PORT
+
+app.get('/', (req, res) => {
+    res.send("This is base URL page of server")
+})
+
+app.listen(PORT, () => {
+    console.log("Server is running...")
+})

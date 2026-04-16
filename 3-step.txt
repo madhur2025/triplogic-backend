@@ -1,0 +1,49 @@
+step 1 : npm install mongoose
+step 2 : root me config folder banao
+step 3 : usme database.js file banao or connection code likho
+
+const mongoose = require('mongoose')
+
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect('mongodb://localhost:27017')
+        console.log("Connected to mongoDB")
+    }
+    catch (err) {
+        console.error(err.message)
+        process.exit(1)
+    }
+}
+module.exports = connectDB
+
+--------------------------------------------------------------------------------------
+
+step 4 : database connection code ko server file me import
+step 5 : function ko run kro
+
+const express = require('express')
+const app = express()
+
+// step 1 : npm install dotenv
+// step 2 : import env
+const dotenv = require('dotenv')
+// step 3 : load the env.config
+dotenv.config()
+
+const PORT = process.env.SERVER_PORT
+
+// step 4 : npm install mongoose
+// step 5 : create config folder > create database.js > write DB connection code
+
+// step 6 : import database.js in server.js
+const connectDB = require('./config/database')
+// step 7 : execute the function
+connectDB()
+
+app.get('/', (req, res) => {
+    res.send("This is base URL page of server")
+})
+
+app.listen(PORT, () => {
+    console.log("Server is running...")
+})

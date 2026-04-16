@@ -1,0 +1,11 @@
+step 1 : routes folder banao
+step 2 : userRoutes.js file banao isme userControllers ko import kro or basic code likho
+
+const express = require('express')
+const router = express.Router()
+
+const {registerUser} = require('../controllers/userControllers')
+
+router.post('/register',registerUser)
+
+module.exports = router

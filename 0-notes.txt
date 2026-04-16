@@ -1,0 +1,103 @@
+
+// 1. require : ye Node.js ka built in function hai, ye kisi bhi module(file/package) ko apne code me use krne k liye import krta hai. 
+
+// abhi ye express package ko import / load kr rha hai, or express variable me store kr rha hai. 
+const express = require('express')
+// is line k baad ab express ek function bn gya hai
+
+
+// 2. jb hum express function ko call krte hai, ye ek application object create krta hai, hum us created application object ko app variable me store kr rhe hai.
+const app = express()
+// app ek object hai jisme bohot sare methods hote hai
+// app.get() app.post() app.put() app.delete() app.use() app.listen()
+
+
+// 3. port define : server kis port pr chalega wo define kr rhe hai.
+const port = 4000
+
+// 4. app.use ye middleware ko use krne k liye use krte hai, iska mtlb ye function hr request pr chalega.
+// express.static ye ek ready made middleware hai jo file server krta hai.
+app.use(express.static("public"))
+// ye line optional hai agr static file serve krni hai tabhi use krte hai.
+
+
+// 5. ye ek method hai jo get request ko handle krta hai.
+// abhi ye / (root) pr jo bhi get request aa rhi hai usko handle kr rha hai. or response send kr rha hai.
+app.get('/', (req, res) => {
+    res.send('Get request') // ye line browser ko response bhej rhi hai.
+})
+// iska mtlb jb bhi root pr koi get request aaye toh use ye response bhej do.
+
+
+
+----------------------------------------------------------------------------------------------
+
+Routes : routes URL ya path hote hai. 
+Routing : ye decide krna ki konsi request pr kya response dena hai.
+Simple language me req kis URL pr aaya hai or konsi request bhej rha hai or uske hisaab se kya code chalega ye routing hai.
+
+Modular routing : Alag-alag functionality (feature) ke hisaab se routes ko alag files me rakhna moduler routing hoti hai, jese auth se related sb routes login,logout,signup ye sb routes auth k andar likhna or prodcut add,remove,update ye sb routes product.js k andar
+
+isse code moduler easy to manage easy to understand or easy to read or clean ho jata hai.
+
+project/
+ ├── index.js
+ ├── routes/
+ │     ├── auth.js
+ │     ├── product.js
+ │     └── user.js 
+
+------------------------------------------------------------------------------
+
+// Middleware : Middleware ek function hota hai jo request aur response ke beech me kaam karta hai.
+
+// Use of middleware : middleware is a function that handle request, response it can also perform task like authentication, logging, error handling (is there any missing data in request, the data is right or not, validate is any data empty), middleware also make changes in request an response.
+
+// middleware :: works after sending request but before processing request.
+
+// Middleware ek beech ka step hai jo request aane par route handler se pehle run hota hai aur next() ke through request ko aage bhejta route handler ko wo process krke response client ko bhejta hai.
+
+// Client → Request → Middleware → Route Handler → Response → Client
+
+// ⚠️ next() tabhi use krte hai jb aage ek or middleware ho.
+// ⚠️ order bohot jada important hota hai middleware hamesha router handler se pahle write krne hai or load krne hai. 
+
+-------------------------------------------------------------------------------------
+
+express.json() ye ek inbuild middleware hai jo request k json data ko read krke req.body me convert krta hai, iske bina data undefined aayega
+
+it allow our app to handle json encoded data. this is body parser
+
+-----------------------------------------------------------------------------------------------------------
+
+what is a schema : schema define krta hai ki database me data kesa dikhega, structure of data, schema k andar feilds, unka data type, unki length kitni hogi ye sb define hota hai
+
+schema : structure of your data
+// model : a constructor you can use to create/read/update/delete documents
+
+--------------------------------------------------------------------------------------------------------
+
+CORS (Cross-Origin Resource Sharing) : CORS ek security rule hai jo decide karta hai kaunsa frontend tumhare backend se data le sakta hai
+
+request flow me cors kaha aate hai
+Client → (CORS check) → Server → Routes → Controller → Model → Database
+
+⚠️ cors backend k logic ka part nhi hota, ye ek security layer hai browser side ka.
+
+cors ko use krne k baad ab backend ko koi bhi use kr skta hai, isliye cors me origin set krte hai taki jis frontend ko humne allow kiya hai sirf wohi is backend ko access kr skte hai.
+
+// method 1 : publically sbko allow kr diya ab koi bhi use kr skta hai.
+const cors = require('cors')
+app.use(cors());
+
+// method 2 : specific frontend k liye allow kiya hai sirf
+const cors = require('cors')
+
+app.use(cors({
+    origin: "http://localhost:5173"
+}))
+
+// method 3 : multiple frontend k liye allow kr diya hai.
+app.use(cors({
+    origin: ["http://localhost:5173", "https://myapp.com"]
+}))

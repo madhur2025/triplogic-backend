@@ -1,0 +1,14 @@
+step 1 : npm init -y
+step 2 : npm install express
+step 3 : server.js root me create kro or basic server code likho (given below)
+
+const express = require('express')
+const app = express()
+
+app.get('/', (req, res) => {
+    res.send("This is base URL page of server")
+})
+
+app.listen(3000, () => {
+    console.log("Server is running...")
+})

@@ -25,7 +25,8 @@ const corsOptions = {
 };
 
 // step 13 : use cors
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
+app.use(cors())
 
 // step 3 : load the env.config
 dotenv.config()

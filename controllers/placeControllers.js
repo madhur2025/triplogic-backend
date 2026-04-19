@@ -17,10 +17,14 @@ const createPlace = async (req, res) => {
     try {
         const { name, description, categories, latitude, longitude, city, state, highlights, images } = req.body
 
-        const formattedImages = images.map(img => `/images/${img}`) // images k name k aage /images/ add kr dega
+        // const formattedImages = images.map(img => `/images/${img}`) // images k name k aage /images/ add kr dega
 
-        const place = new Place({
-            name, description, city, state, highlights, categories, images: formattedImages, location: { type: "Point", coordinates: [longitude, latitude] }
+        // const place = new Place({
+        //     name, description, city, state, highlights, categories, images: formattedImages, location: { type: "Point", coordinates: [longitude, latitude] }
+        // })
+
+         const place = new Place({
+            name, description, city, state, highlights, categories, images, location: { type: "Point", coordinates: [longitude, latitude] }
         })
 
         await place.save()

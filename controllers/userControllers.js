@@ -133,7 +133,24 @@ const getUserProfile = async (req, res) => {
     }
 }
 
-module.exports = { sendOtp, registerUser, loginUser, getUserProfile }
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params
+        const user = await User.findByIdAndDelete(id)
+
+        if (!user) {
+            return res.status(400).json({ message: "User Not Found" })
+        }
+        res.json({ message: "Account delted" })
+
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error.message })
+    }
+}
+
+module.exports = { sendOtp, registerUser, loginUser, getUserProfile, deleteUser }
 
 
 // const User = require("../models/userModel")

@@ -7,5 +7,5 @@ router.post("/send-otp", sendOtp)
 router.post("/register", registerUser)
 router.post("/login", loginUser)
 router.get("/profile", authMiddleware, getUserProfile)
-router.delete("/delete", deleteUser)
+router.delete("/delete/:id", deleteUser)
 module.exports = router

@@ -19,8 +19,13 @@ const placeRoutes = require('./routes/placeRoutes')
 
 const app = express()
 
+const corsOptions = {
+    origin: 'https://triplogic-frontend-psi.vercel.app',
+    optionsSuccessStatus: 200
+};
+
 // step 13 : use cors
-app.use(cors())
+app.use(cors(corsOptions))
 
 // step 3 : load the env.config
 dotenv.config()

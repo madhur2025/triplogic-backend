@@ -173,4 +173,64 @@ const setHomeLocation = async (req, res) => {
     }
 }
 
-module.exports = { sendOtp, registerUser, loginUser, getUserProfile, deleteUser, setHomeLocation }
+const addFavorite = async (req, res) => {
+    try {
+        const { placeId } = req.body;
+
+        if (!placeId) {
+            return res.status(400).json({ message: "placeId required" });
+        }
+
+        const user = await User.findById(req.user.id);
+
+        // already added?
+        if (user.favorites.some(id => id.toString() === placeId)) {
+            return res.status(400).json({ message: "Already in favorites" });
+        }
+
+        user.favorites.push(placeId);
+        await user.save();
+
+        res.json({ message: "Added to favorites" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const removeFavorite = async (req, res) => {
+    try {
+        const { placeId } = req.body;
+
+        if (!placeId) {
+            return res.status(400).json({ message: "placeId required" });
+        }
+
+        const user = await User.findById(req.user.id);
+
+        user.favorites = user.favorites.filter(
+            id => id.toString() !== placeId
+        );
+
+        await user.save();
+
+        res.json({ message: "Removed from favorites" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const getFavorites = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+            .populate("favorites");
+
+        // null cleanup (deleted places case)
+        const validFavorites = user.favorites.filter(place => place !== null);
+
+        res.json(validFavorites);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+module.exports = { sendOtp, registerUser, loginUser, getUserProfile, deleteUser, setHomeLocation, addFavorite, removeFavorite, getFavorites }

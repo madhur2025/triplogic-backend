@@ -10,10 +10,6 @@ const userSchema = new mongoose.Schema({
     homeLocation: {
         type: { type: String, enum: ["Point"], default: "Point" },
         coordinates: { type: [Number], default: null }
-    },
-    favorites: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Place"
     }
 }, { timestamps: true })
 
